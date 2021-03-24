@@ -1,12 +1,16 @@
 package com.leckereweine.be3;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Compra {
-    private int id_producto;
-    private int cantidad;
+    private List<Producto> listaProductos;
     private int id_usuario;
     private String info_usuario;
+    private LocalDate fecha;
 
-    public int getId_producto() {
+    /*public int getId_producto() {
         return id_producto;
     }
 
@@ -20,6 +24,14 @@ public class Compra {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }*/
+
+    public List<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    public void setListaProductos(List<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
     }
 
     public int getId_usuario() {
@@ -38,10 +50,26 @@ public class Compra {
         this.info_usuario = info_usuario;
     }
 
-    public Compra(int id_producto, int cantidad, int id_usuario, String info_usuario) {
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    /*public Compra(int id_producto, int cantidad, int id_usuario, String info_usuario, LocalDate fecha) {
         this.id_producto = id_producto;
         this.cantidad = cantidad;
         this.id_usuario = id_usuario;
         this.info_usuario = info_usuario;
+        this.fecha = fecha;
+    }*/
+
+    public Compra(List<Producto> productos, int id_usuario, String info_usuario, LocalDate fecha) {
+        this.listaProductos = productos;
+        this.id_usuario = id_usuario;
+        this.info_usuario = info_usuario;
+        this.fecha = fecha;
     }
 }

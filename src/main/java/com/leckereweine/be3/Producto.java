@@ -1,10 +1,18 @@
 package com.leckereweine.be3;
 
+
 public class Producto {
     private int id_producto;
     private int cantidad;
     private String nombre;
     private double precio;
+
+    public Producto(int id_producto, int cantidad, String nombre, double precio) {
+        this.id_producto = id_producto;
+        this.cantidad = cantidad;
+        this.nombre = nombre;
+        this.precio = precio;
+    }
 
     public int getId_producto() {
         return id_producto;
