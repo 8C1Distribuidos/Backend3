@@ -10,7 +10,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 @Configuration
 public class WebConfig {
 
-    //    @Bean
+    @Bean
     public ObjectMapper configureJson() {
         return new Jackson2ObjectMapperBuilder()
                 .indentOutput(true)
@@ -18,7 +18,7 @@ public class WebConfig {
                 .build();
     }
 
-    @Bean
+    /*@Bean
     public Jackson2ObjectMapperBuilderCustomizer customizeJson()
     {
         return builder -> {
@@ -26,5 +26,5 @@ public class WebConfig {
             builder.indentOutput(true);
             builder.propertyNamingStrategy(PropertyNamingStrategy.UPPER_CAMEL_CASE);
         };
-    }
+    }*/
 }

@@ -6,12 +6,25 @@ public class Producto {
     private int cantidad;
     private String nombre;
     private double precio;
+    private String imageLink;
+    private Categoria categoria;
 
-    public Producto(int id_producto, int cantidad, String nombre, double precio) {
+    public Producto(int id_producto, int cantidad, String nombre, double precio, String imageLink, Categoria categoria) {
         this.id_producto = id_producto;
         this.cantidad = cantidad;
         this.nombre = nombre;
         this.precio = precio;
+        this.imageLink = imageLink;
+        this.categoria = categoria;
+    }
+
+    public Producto(){
+
+    }
+
+    public Producto(int id_producto, int cantidad) {
+        this.id_producto = id_producto;
+        this.cantidad = cantidad;
     }
 
     public int getId_producto() {
@@ -44,5 +57,21 @@ public class Producto {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

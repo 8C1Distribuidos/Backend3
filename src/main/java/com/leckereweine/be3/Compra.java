@@ -7,24 +7,11 @@ import java.util.List;
 public class Compra {
     private List<Producto> listaProductos;
     private int id_usuario;
-    private String info_usuario;
     private LocalDate fecha;
-
-    /*public int getId_producto() {
-        return id_producto;
-    }
-
-    public void setId_producto(int id_producto) {
-        this.id_producto = id_producto;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }*/
+    private double precioFinal;
+    private int numeroTarjeta;
+    private int cvvTarjeta;
+    private LocalDate fechaTarjeta;
 
     public List<Producto> getListaProductos() {
         return listaProductos;
@@ -42,14 +29,6 @@ public class Compra {
         this.id_usuario = id_usuario;
     }
 
-    public String getInfo_usuario() {
-        return info_usuario;
-    }
-
-    public void setInfo_usuario(String info_usuario) {
-        this.info_usuario = info_usuario;
-    }
-
     public LocalDate getFecha() {
         return fecha;
     }
@@ -58,18 +37,56 @@ public class Compra {
         this.fecha = fecha;
     }
 
-    /*public Compra(int id_producto, int cantidad, int id_usuario, String info_usuario, LocalDate fecha) {
-        this.id_producto = id_producto;
-        this.cantidad = cantidad;
-        this.id_usuario = id_usuario;
-        this.info_usuario = info_usuario;
-        this.fecha = fecha;
-    }*/
+    public double getPrecioFinal() {
+        return precioFinal;
+    }
 
-    public Compra(List<Producto> productos, int id_usuario, String info_usuario, LocalDate fecha) {
-        this.listaProductos = productos;
+    public void setPrecioFinal(double precioFinal) {
+        this.precioFinal = precioFinal;
+    }
+
+    public int getNumeroTarjeta() {
+        return numeroTarjeta;
+    }
+
+    public void setNumeroTarjeta(int numeroTarjeta) {
+        this.numeroTarjeta = numeroTarjeta;
+    }
+
+    public int getCvvTarjeta() {
+        return cvvTarjeta;
+    }
+
+    public void setCvvTarjeta(int cvvTarjeta) {
+        this.cvvTarjeta = cvvTarjeta;
+    }
+
+    public LocalDate getFechaTarjeta() {
+        return fechaTarjeta;
+    }
+
+    public void setFechaTarjeta(LocalDate fechaTarjeta) {
+        this.fechaTarjeta = fechaTarjeta;
+    }
+
+    public Compra() {
+
+    }
+
+    public Compra(List<Producto> listaProductos, int id_usuario, LocalDate fecha, double precioFinal, int numeroTarjeta, int cvvTarjeta, LocalDate fechaTarjeta) {
+        this.listaProductos = listaProductos;
         this.id_usuario = id_usuario;
-        this.info_usuario = info_usuario;
         this.fecha = fecha;
+        this.precioFinal = precioFinal;
+        this.numeroTarjeta = numeroTarjeta;
+        this.cvvTarjeta = cvvTarjeta;
+        this.fechaTarjeta = fechaTarjeta;
+    }
+
+    public Compra(List<Producto> listaProductos, int id_usuario, LocalDate fecha, double precioFinal) {
+        this.listaProductos = listaProductos;
+        this.id_usuario = id_usuario;
+        this.fecha = fecha;
+        this.precioFinal = precioFinal;
     }
 }

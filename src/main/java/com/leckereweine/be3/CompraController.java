@@ -13,28 +13,26 @@ public class CompraController {
 
     @Autowired
     private CompraService compraService;
+    CompraRepository compraRepository;
 
-    /*@GetMapping("/compra")
-    public Compra compra(
-
-            @RequestParam List<Producto> productos,
-
-            @RequestParam int id_usuario,
-            @RequestParam (value = "info", defaultValue = "No info") String info_usuario,
-            @RequestParam LocalDate fecha
-
-            ){
-        return new Compra(productos, id_usuario, info_usuario, fecha);
-    }*/
-
-
-    @GetMapping("/enviar")
+    @GetMapping("/")
     public ResponseEntity<Compra> compra(){
         return ResponseEntity.ok(compraService.getCompra());
     }
 
     @PostMapping("/recibir")
-    public ResponseEntity<List<Producto>> recibirProducto(@RequestBody List<Producto> productos){
-        return ResponseEntity.ok(compraService.getProducts(productos));
+    public ResponseEntity<Compra> recibirCompra(@RequestBody Compra compra){
+        return ResponseEntity.ok(compraService.setCompra(compra));
     }
+
+    @PostMapping("/historialCompras")
+    public ResponseEntity<List<Compra>> historialCompras(@PathVariable("id") int id_usuario){
+        return ResponseEntity.ok(compraService.historialCompras(id_usuario));
+    }
+
+
+
+
+
+
 }
