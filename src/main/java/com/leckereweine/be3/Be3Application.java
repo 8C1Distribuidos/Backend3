@@ -8,10 +8,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class Be3Application {
 
-	@Bean
-	public RestTemplate getresttemplate() {
-		return new RestTemplate();
-	}
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(Be3Application.class, args);

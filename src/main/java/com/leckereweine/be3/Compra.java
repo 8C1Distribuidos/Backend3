@@ -9,9 +9,12 @@ public class Compra {
     private int id_usuario;
     private LocalDate fecha;
     private double precioFinal;
-    private int numeroTarjeta;
-    private int cvvTarjeta;
+    private String numeroTarjeta;
+    private String cvvTarjeta;
     private LocalDate fechaTarjeta;
+    private String direccion;
+    private String cp;
+    private Ciudad ciudad;
 
     public List<Producto> getListaProductos() {
         return listaProductos;
@@ -45,19 +48,19 @@ public class Compra {
         this.precioFinal = precioFinal;
     }
 
-    public int getNumeroTarjeta() {
+    public String getNumeroTarjeta() {
         return numeroTarjeta;
     }
 
-    public void setNumeroTarjeta(int numeroTarjeta) {
+    public void setNumeroTarjeta(String numeroTarjeta) {
         this.numeroTarjeta = numeroTarjeta;
     }
 
-    public int getCvvTarjeta() {
+    public String getCvvTarjeta() {
         return cvvTarjeta;
     }
 
-    public void setCvvTarjeta(int cvvTarjeta) {
+    public void setCvvTarjeta(String cvvTarjeta) {
         this.cvvTarjeta = cvvTarjeta;
     }
 
@@ -69,11 +72,48 @@ public class Compra {
         this.fechaTarjeta = fechaTarjeta;
     }
 
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCp() {
+        return cp;
+    }
+
+    public void setCp(String cp) {
+        this.cp = cp;
+    }
+
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
+
     public Compra() {
 
     }
 
-    public Compra(List<Producto> listaProductos, int id_usuario, LocalDate fecha, double precioFinal, int numeroTarjeta, int cvvTarjeta, LocalDate fechaTarjeta) {
+    public Compra(List<Producto> listaProductos, int id_usuario, LocalDate fecha, double precioFinal, String numeroTarjeta, String cvvTarjeta, LocalDate fechaTarjeta, String direccion, String cp, Ciudad ciudad) {
+        this.listaProductos = listaProductos;
+        this.id_usuario = id_usuario;
+        this.fecha = fecha;
+        this.precioFinal = precioFinal;
+        this.numeroTarjeta = numeroTarjeta;
+        this.cvvTarjeta = cvvTarjeta;
+        this.fechaTarjeta = fechaTarjeta;
+        this.direccion = direccion;
+        this.cp = cp;
+        this.ciudad = ciudad;
+    }
+
+    public Compra(List<Producto> listaProductos, int id_usuario, LocalDate fecha, double precioFinal, String numeroTarjeta, String cvvTarjeta, LocalDate fechaTarjeta) {
         this.listaProductos = listaProductos;
         this.id_usuario = id_usuario;
         this.fecha = fecha;

@@ -1,20 +1,18 @@
 package com.leckereweine.be3;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class CompraService {
 
     List<Producto> listaProductos;
     double costoFinal;
-    RestTemplate restTemplate;
-    private static final String BD_URL = "http://localhost:9081/";
+
 
     public Compra getCompra() {
         /*List<Producto> productos = new ArrayList<>();
@@ -25,9 +23,9 @@ public class CompraService {
         productos.add(new Producto(4, 1, "Barefoot", 100));*/
 
         LocalDate date = LocalDate.of(2021, 9, 11);
-        Compra compra = new Compra(listaProductos, 0, date, costoFinal, 0, 0, date);
+        //Compra compra = new Compra(listaProductos, 0, date, costoFinal, 0, 0, date);
 
-        return compra;
+        return null;
     }
 
     public List<Producto> getProducts(List<Producto> productos) {
@@ -39,26 +37,78 @@ public class CompraService {
 
         listaProductos = productos;
         for (Producto p:productos) {
-            costoFinal += p.getPrecio();
+            costoFinal += p.getPrice();
         }
         return productos;
     }
 
     public Compra setCompra(Compra compra){
-        return CompraExternService.postCompra(compra);
+        Usuario user = CompraExternService.getUser(compra.getId_usuario());
+        if(user != null){
+            List<Producto> productos;
+            List<Producto> aux = new ArrayList<>();
+            List<Integer> idProductos = new ArrayList<>();
+
+            productos = compra.getListaProductos();
+            for (Producto prod:productos) {
+                idProductos.add(prod.getId());
+            }
+            aux = CompraExternService.getInfoProductos(idProductos);
+            if(aux.size() == productos.size()){
+                if(CompraExternService.checkCompra(compra)) {
+                    CompraParaBD comprita = new CompraParaBD(compra.getId_usuario(), compra.getFecha(), compra.getPrecioFinal(), compra.getListaProductos());
+                    return CompraExternService.postCompra(comprita);
+                }
+
+            }
+        }
+        return null;
+
     }
 
     public List<Compra> historialCompras(int id_usuario) {
-        List<Compra> compras = CompraExternService.getHistorialCompras(id_usuario);
+        Usuario user = CompraExternService.getUser(id_usuario);
+
+        List<Compra> compras = CompraExternService.getHistorialCompras(user);
+
+        for(var compra: compras){
+
+            List<Integer> idProductos = new ArrayList<>();
+            for (Producto prod:compra.getListaProductos()) {
+                idProductos.add(prod.getId());
+            }
+            compra.setListaProductos(CompraExternService.getInfoProductos(idProductos));
 
 
-        List<Producto> productos = new ArrayList<>();
+            List<Producto> productosAux = new ArrayList<>();
+            for(var prod: compra.getListaProductos()){
+                Producto aux = new Producto();
+
+                Category cat = new Category();
+                cat.setName(prod.getCategory().getName());
+
+                aux.setName(prod.getName());
+                aux.setImageLink(prod.getImageLink());
+                aux.setCategory(cat);
+
+                productosAux.add(aux);
+            }
+
+            compra.setListaProductos(productosAux);
+        }
+
+        /*List<Producto> productos = new ArrayList<>();
         for (var compra: compras) {
             for(var productoEnCompra: compra.getListaProductos()){
                 productos.add(productoEnCompra);
             }
         }
-        productos = CompraExternService.getInfoProductos(productos);
+
+        List<Integer> idProductos = new ArrayList<>();
+        for (Producto prod:productos) {
+            idProductos.add(prod.getId_producto());
+        }
+        productos = CompraExternService.getInfoProductos(idProductos);
 
         for(var compra: compras){
             List<Producto> productosCompraActual = compra.getListaProductos();
@@ -70,20 +120,16 @@ public class CompraService {
                 }
             }
             compra.setListaProductos(productosCompraActual);
-        }
+        }*/
 
         return compras;
 
-        //return CompraExternService.getHistorialCompras(id_usuario);
+
     }
 
-    /*public void getProductss(List<Producto> productos) {
+    public List<Ciudad> getCiudades(){
+        List<Ciudad> ciudades = CompraExternService.getCiudades();
 
-
-        LocalDate date = LocalDate.of(2021, 9, 11);
-
-        Compra compra = new Compra(productos, 0, "Info", date);
-
-
-    }*/
+        return ciudades;
+    }
 }

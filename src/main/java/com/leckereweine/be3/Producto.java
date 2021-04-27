@@ -2,61 +2,62 @@ package com.leckereweine.be3;
 
 
 public class Producto {
-    private int id_producto;
-    private int cantidad;
-    private String nombre;
-    private double precio;
+    private int id;
+    private int stack;
+    private String name;
+    private double price;
     private String imageLink;
-    private Categoria categoria;
+    private Category category;
 
-    public Producto(int id_producto, int cantidad, String nombre, double precio, String imageLink, Categoria categoria) {
-        this.id_producto = id_producto;
-        this.cantidad = cantidad;
-        this.nombre = nombre;
-        this.precio = precio;
+
+    public Producto(int id, int stack, String name, double price, String imageLink, Category category) {
+        this.id = id;
+        this.stack = stack;
+        this.name = name;
+        this.price = price;
         this.imageLink = imageLink;
-        this.categoria = categoria;
+        this.category = category;
     }
 
     public Producto(){
 
     }
 
-    public Producto(int id_producto, int cantidad) {
-        this.id_producto = id_producto;
-        this.cantidad = cantidad;
+    public Producto(int id, int stack) {
+        this.id = id;
+        this.stack = stack;
     }
 
-    public int getId_producto() {
-        return id_producto;
+    public int getId() {
+        return id;
     }
 
-    public void setId_producto(int id_producto) {
-        this.id_producto = id_producto;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public int getStack() {
+        return stack;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setStack(int stack) {
+        this.stack = stack;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getImageLink() {
@@ -67,11 +68,11 @@ public class Producto {
         this.imageLink = imageLink;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

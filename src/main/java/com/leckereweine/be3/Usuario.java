@@ -1,42 +1,45 @@
 package com.leckereweine.be3;
 
 public class Usuario {
-    private int id_usuario;
-    private String nombre;
-    private String apellido;
-    private String contraseña;
+    private int id;
+    private String firstName;
+    private String paternalName;
+    private String maternalName;
+    private String photo;
+    private String password;
     private String email;
+    private Role role;
 
     public int getId_usuario() {
-        return id_usuario;
+        return id;
     }
 
     public void setId_usuario(int id_usuario) {
-        this.id_usuario = id_usuario;
+        this.id = id_usuario;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getPaternalName() {
+        return paternalName;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setPaternalName(String paternalName) {
+        this.paternalName = paternalName;
     }
 
     public String getContraseña() {
-        return contraseña;
+        return password;
     }
 
     public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+        this.password = contraseña;
     }
 
     public String getEmail() {
@@ -45,5 +48,9 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Usuario(){
+
     }
 }
