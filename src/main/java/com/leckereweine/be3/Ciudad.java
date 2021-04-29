@@ -1,31 +1,31 @@
 package com.leckereweine.be3;
 
 public class Ciudad {
-    private int idCiudad;
-    private String nombre;
+    private int id;
+    private String name;
 
-    public Ciudad(int idCiudad, String nombre) {
-        this.idCiudad = idCiudad;
-        this.nombre = nombre;
+    public Ciudad(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Ciudad(){
 
     }
 
-    public int getIdCiudad() {
-        return idCiudad;
+    public int getId() {
+        return id;
     }
 
-    public void setIdCiudad(int idCiudad) {
-        this.idCiudad = idCiudad;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 }

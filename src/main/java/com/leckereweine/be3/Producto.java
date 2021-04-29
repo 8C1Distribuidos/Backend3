@@ -3,16 +3,26 @@ package com.leckereweine.be3;
 
 public class Producto {
     private int id;
-    private int stack;
+    private int stock;
     private String name;
     private double price;
     private String imageLink;
     private Category category;
+    private int amount;
 
-
-    public Producto(int id, int stack, String name, double price, String imageLink, Category category) {
+    public Producto(int id, int stock, String name, double price, String imageLink, Category category, int amount) {
         this.id = id;
-        this.stack = stack;
+        this.stock = stock;
+        this.name = name;
+        this.price = price;
+        this.imageLink = imageLink;
+        this.category = category;
+        this.amount = amount;
+    }
+
+    public Producto(int id, int stock, String name, double price, String imageLink, Category category) {
+        this.id = id;
+        this.stock = stock;
         this.name = name;
         this.price = price;
         this.imageLink = imageLink;
@@ -23,9 +33,9 @@ public class Producto {
 
     }
 
-    public Producto(int id, int stack) {
+    public Producto(int id, int stock) {
         this.id = id;
-        this.stack = stack;
+        this.stock = stock;
     }
 
     public int getId() {
@@ -36,12 +46,12 @@ public class Producto {
         this.id = id;
     }
 
-    public int getStack() {
-        return stack;
+    public int getStock() {
+        return stock;
     }
 
-    public void setStack(int stack) {
-        this.stack = stack;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getName() {
@@ -74,5 +84,13 @@ public class Producto {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

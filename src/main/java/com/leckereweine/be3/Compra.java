@@ -1,17 +1,19 @@
 package com.leckereweine.be3;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Compra {
     private List<Producto> listaProductos;
     private int id_usuario;
-    private LocalDate fecha;
+    private LocalDateTime fecha;
     private double precioFinal;
     private String numeroTarjeta;
     private String cvvTarjeta;
     private LocalDate fechaTarjeta;
+    private String stringFecha;
     private String direccion;
     private String cp;
     private Ciudad ciudad;
@@ -32,11 +34,11 @@ public class Compra {
         this.id_usuario = id_usuario;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
@@ -96,11 +98,19 @@ public class Compra {
         this.ciudad = ciudad;
     }
 
+    public String getStringFecha() {
+        return stringFecha;
+    }
+
+    public void setStringFecha(String stringFecha) {
+        this.stringFecha = stringFecha;
+    }
+
     public Compra() {
 
     }
 
-    public Compra(List<Producto> listaProductos, int id_usuario, LocalDate fecha, double precioFinal, String numeroTarjeta, String cvvTarjeta, LocalDate fechaTarjeta, String direccion, String cp, Ciudad ciudad) {
+    public Compra(List<Producto> listaProductos, int id_usuario, LocalDateTime fecha, double precioFinal, String numeroTarjeta, String cvvTarjeta, LocalDate fechaTarjeta, String direccion, String cp, Ciudad ciudad) {
         this.listaProductos = listaProductos;
         this.id_usuario = id_usuario;
         this.fecha = fecha;
@@ -113,7 +123,7 @@ public class Compra {
         this.ciudad = ciudad;
     }
 
-    public Compra(List<Producto> listaProductos, int id_usuario, LocalDate fecha, double precioFinal, String numeroTarjeta, String cvvTarjeta, LocalDate fechaTarjeta) {
+    public Compra(List<Producto> listaProductos, int id_usuario, LocalDateTime fecha, double precioFinal, String numeroTarjeta, String cvvTarjeta, LocalDate fechaTarjeta) {
         this.listaProductos = listaProductos;
         this.id_usuario = id_usuario;
         this.fecha = fecha;
@@ -123,7 +133,7 @@ public class Compra {
         this.fechaTarjeta = fechaTarjeta;
     }
 
-    public Compra(List<Producto> listaProductos, int id_usuario, LocalDate fecha, double precioFinal) {
+    public Compra(List<Producto> listaProductos, int id_usuario, LocalDateTime fecha, double precioFinal) {
         this.listaProductos = listaProductos;
         this.id_usuario = id_usuario;
         this.fecha = fecha;

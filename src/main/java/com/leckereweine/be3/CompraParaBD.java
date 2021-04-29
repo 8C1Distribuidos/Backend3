@@ -1,19 +1,24 @@
 package com.leckereweine.be3;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class CompraParaBD {
     private int id;
-    private LocalDate fecha;
-    private double precioFinal;
-    private List<Producto> listaProductos;
+    private int idUser;
+    private LocalDateTime dateTime;
+    private double totalPrice;
+    private List<Producto> purchaseList;
+    private String address;
+    private Ciudad city;
+    private String zipCode;
 
-    public CompraParaBD(int id, LocalDate fecha, double precioFinal, List<Producto> listaProductos) {
+    public CompraParaBD(int id, LocalDateTime dateTime, double totalPrice, List<Producto> purchaseList) {
         this.id = id;
-        this.fecha = fecha;
-        this.precioFinal = precioFinal;
-        this.listaProductos = listaProductos;
+        this.dateTime = dateTime;
+        this.totalPrice = totalPrice;
+        this.purchaseList = purchaseList;
     }
 
     public CompraParaBD() {
@@ -27,27 +32,67 @@ public class CompraParaBD {
         this.id = usuario;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
-    public double getPrecioFinal() {
-        return precioFinal;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setPrecioFinal(double precioFinal) {
-        this.precioFinal = precioFinal;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public List<Producto> getListaProductos() {
-        return listaProductos;
+    public List<Producto> getPurchaseList() {
+        return purchaseList;
     }
 
-    public void setListaProductos(List<Producto> listaProductos) {
-        this.listaProductos = listaProductos;
+    public void setPurchaseList(List<Producto> purchaseList) {
+        this.purchaseList = purchaseList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Ciudad getCity() {
+        return city;
+    }
+
+    public void setCity(Ciudad city) {
+        this.city = city;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 }

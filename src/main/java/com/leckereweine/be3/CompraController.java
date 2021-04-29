@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,26 +22,38 @@ public class CompraController {
 
     @GetMapping("/")
     @CrossOrigin()
-    public ResponseEntity<Compra> compra(){
-        return ResponseEntity.ok(compraService.getCompra());
+    public ResponseEntity<List<Integer>> compra(){
+        List<Integer> ints = new ArrayList<>();
+        for(int i = 0; i < 5; i++){
+            Integer x = i;
+            ints.add(x);
+        }
+        return ResponseEntity.ok(ints);
     }
 
     @PostMapping("/recibir")
     @CrossOrigin()
-    public ResponseEntity<Compra> recibirCompra(@RequestBody Compra compra){
-        compra.setFecha(LocalDate.now());
-        Compra comprita = compraService.setCompra(compra);
-        if(comprita != null){
-            return ResponseEntity.ok(comprita);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<CompraParaBD> recibirCompra(@RequestBody Compra compra){
+        compra.setFecha(LocalDateTime.now());
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        String [] fechaRecibida = compra.getStringFecha().split("/");
+        String fecha = "01/" + fechaRecibida[0] + "/20" + fechaRecibida[1];
+        compra.setFechaTarjeta(LocalDate.parse(fecha, formatter));
+
+
+
+        return compraService.setCompra(compra);
+
+        //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/historialCompras")
+    @GetMapping("/historialCompras")
     @CrossOrigin()
-    public ResponseEntity<List<Compra>> historialCompras(@RequestBody Usuario usuario){
+    public ResponseEntity<List<CompraBD>> historialCompras(@RequestParam int id_usuario){
 
-        return ResponseEntity.ok(compraService.historialCompras(usuario.getId_usuario()));
+        return ResponseEntity.ok(compraService.historialCompras(id_usuario));
 
     }
 

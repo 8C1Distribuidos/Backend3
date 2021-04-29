@@ -1,5 +1,7 @@
 package com.leckereweine.be3;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -42,7 +44,7 @@ public class CompraService {
         return productos;
     }
 
-    public Compra setCompra(Compra compra){
+    public ResponseEntity<CompraParaBD> setCompra(Compra compra){
         Usuario user = CompraExternService.getUser(compra.getId_usuario());
         if(user != null){
             List<Producto> productos;
@@ -55,9 +57,21 @@ public class CompraService {
             }
             aux = CompraExternService.getInfoProductos(idProductos);
             if(aux.size() == productos.size()){
-                if(CompraExternService.checkCompra(compra)) {
-                    CompraParaBD comprita = new CompraParaBD(compra.getId_usuario(), compra.getFecha(), compra.getPrecioFinal(), compra.getListaProductos());
-                    return CompraExternService.postCompra(comprita);
+                int variablePitera = CompraExternService.checkCompra(compra);
+                if(variablePitera == 0) {
+                    CompraParaBD comprita = new CompraParaBD(0, compra.getFecha(), compra.getPrecioFinal(), compra.getListaProductos());
+                    comprita.setAddress(compra.getDireccion());
+                    comprita.setCity(compra.getCiudad());
+                    comprita.setIdUser(compra.getId_usuario());
+                    comprita.setZipCode(compra.getCp());
+
+                    return ResponseEntity.ok(CompraExternService.postCompra(comprita));
+                }else if(variablePitera == 1){
+                    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
+                }else if(variablePitera == 2){
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); //404
+                }else if(variablePitera == 3){
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); //400
                 }
 
             }
@@ -66,64 +80,40 @@ public class CompraService {
 
     }
 
-    public List<Compra> historialCompras(int id_usuario) {
+    public List<CompraBD> historialCompras(int id_usuario) {
         Usuario user = CompraExternService.getUser(id_usuario);
 
-        List<Compra> compras = CompraExternService.getHistorialCompras(user);
+        if(user != null){
+            List<CompraBD> comprasBD = CompraExternService.getHistorialCompras(user);
+            //List<Compra> compras = CompraExternService.getHistorialCompras(user);
+            if(comprasBD != null){
+                for(var compraBD: comprasBD){
 
-        for(var compra: compras){
-
-            List<Integer> idProductos = new ArrayList<>();
-            for (Producto prod:compra.getListaProductos()) {
-                idProductos.add(prod.getId());
-            }
-            compra.setListaProductos(CompraExternService.getInfoProductos(idProductos));
-
-
-            List<Producto> productosAux = new ArrayList<>();
-            for(var prod: compra.getListaProductos()){
-                Producto aux = new Producto();
-
-                Category cat = new Category();
-                cat.setName(prod.getCategory().getName());
-
-                aux.setName(prod.getName());
-                aux.setImageLink(prod.getImageLink());
-                aux.setCategory(cat);
-
-                productosAux.add(aux);
-            }
-
-            compra.setListaProductos(productosAux);
-        }
-
-        /*List<Producto> productos = new ArrayList<>();
-        for (var compra: compras) {
-            for(var productoEnCompra: compra.getListaProductos()){
-                productos.add(productoEnCompra);
-            }
-        }
-
-        List<Integer> idProductos = new ArrayList<>();
-        for (Producto prod:productos) {
-            idProductos.add(prod.getId_producto());
-        }
-        productos = CompraExternService.getInfoProductos(idProductos);
-
-        for(var compra: compras){
-            List<Producto> productosCompraActual = compra.getListaProductos();
-            for(var producto: productos){
-                for(var productoDeCompra: productosCompraActual){
-                    if(producto.getId_producto() == productoDeCompra.getId_producto()){
-                        productoDeCompra = producto;
+                    List<Integer> idProductos = new ArrayList<>();
+                    for (ProductoBD prod:compraBD.getPurchaseList()) {
+                        idProductos.add(prod.getId());
                     }
+
+                    List<Producto> prods = CompraExternService.getInfoProductos(idProductos);
+
+
+                    for(int i = 0; i < prods.size(); i++){
+                        compraBD.getPurchaseList().get(i).setName( prods.get(i).getName() );
+                        compraBD.getPurchaseList().get(i).setImageLink( prods.get(i).getImageLink() );
+                        compraBD.getPurchaseList().get(i).setCategory( prods.get(i).getCategory() );
+                    }
+
+                    //compraBD.setPurchaseList(CompraExternService.getInfoProductos(idProductos));
+
+
+
                 }
             }
-            compra.setListaProductos(productosCompraActual);
-        }*/
 
-        return compras;
+            return comprasBD;
+        }
 
+        return null;
 
     }
 
