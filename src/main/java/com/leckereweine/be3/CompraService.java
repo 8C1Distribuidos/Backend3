@@ -12,8 +12,9 @@ import java.util.List;
 @Service
 public class CompraService {
 
-    List<Producto> listaProductos;
+    List<Producto> listaProductos, aux;
     double costoFinal;
+
 
 
     public Compra getCompra() {
@@ -48,30 +49,58 @@ public class CompraService {
         Usuario user = CompraExternService.getUser(compra.getId_usuario());
         if(user != null){
             List<Producto> productos;
-            List<Producto> aux = new ArrayList<>();
+            aux = new ArrayList<>();
             List<Integer> idProductos = new ArrayList<>();
 
             productos = compra.getListaProductos();
             for (Producto prod:productos) {
                 idProductos.add(prod.getId());
             }
+
+            /*Thread hilito = new Thread(){
+                public void run(){
+                    aux = CompraExternService.getInfoProductos(idProductos);
+                }
+            };
+            hilito.start();
+            try {
+                hilito.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+
             aux = CompraExternService.getInfoProductos(idProductos);
+
+            for(int i = 0; i<aux.size(); i++){
+                aux.get(i).setAmount(productos.get(i).getAmount());
+            }
+
+            if(CompraExternService.enviarLista(aux) == 1){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null); //409
+            }
+
             if(aux.size() == productos.size()){
-                int variablePitera = CompraExternService.checkCompra(compra);
-                if(variablePitera == 0) {
+                int enteroAux = CompraExternService.checkCompra(compra);
+                if(enteroAux == 0) {
                     CompraParaBD comprita = new CompraParaBD(0, compra.getFecha(), compra.getPrecioFinal(), compra.getListaProductos());
                     comprita.setAddress(compra.getDireccion());
                     comprita.setCity(compra.getCiudad());
                     comprita.setIdUser(compra.getId_usuario());
                     comprita.setZipCode(compra.getCp());
 
+                    /*for(Producto prod : aux){
+                        if(prod.getStock() <= 0) return ResponseEntity.status(HttpStatus.CONFLICT).body(null); //409
+                    }*/
+
                     return ResponseEntity.ok(CompraExternService.postCompra(comprita));
-                }else if(variablePitera == 1){
-                    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
-                }else if(variablePitera == 2){
+                }else if(enteroAux == 1){
+                    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null); //422
+                }else if(enteroAux == 2){
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); //404
-                }else if(variablePitera == 3){
+                }else if(enteroAux == 3){
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); //400
+                }else if(enteroAux == 5){
+                    return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null); //503
                 }
 
             }

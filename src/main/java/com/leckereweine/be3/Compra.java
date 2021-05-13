@@ -139,4 +139,6 @@ public class Compra {
         this.fecha = fecha;
         this.precioFinal = precioFinal;
     }
+
+
 }

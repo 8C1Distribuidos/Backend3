@@ -8,6 +8,7 @@ import springfox.documentation.spring.web.json.Json;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -32,7 +33,8 @@ public class CompraExternService {
 
 
 
-    private static final String BD_URL = "http://25.4.107.19:9081/";
+    private static final String BD_URL = "http://25.16.129.2:9081/"; //El de luisrard
+    //private static final String BD_URL = "http://25.4.107.19:9081/";
     private static final String BANCO_URL = "http://localhost:8081/";
 
 
@@ -245,5 +247,43 @@ public class CompraExternService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int enviarLista(List<Producto> listaProductos){
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(listaProductos);
+        HttpClient client = HttpClient.newBuilder().build();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://25.98.13.19:5555/api/product/UpdateStock"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(jsonString))
+                .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            /*Type productoListType = new TypeToken<ArrayList<Producto>>(){}.getType();
+
+            Producto[] arregloP = gson.fromJson(response.body(), Producto [].class);
+
+            if(arregloP != null){
+                List<Producto> productosNuevos = Arrays.asList(arregloP);
+
+
+                System.out.println(response.body());
+                return productosNuevos;
+            }*/
+            System.out.println(response);
+            if(response.statusCode() == 404){
+                return 1;
+            }
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return 0;
+
     }
 }
