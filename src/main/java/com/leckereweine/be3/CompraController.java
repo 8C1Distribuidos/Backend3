@@ -63,7 +63,11 @@ public class CompraController {
         return ResponseEntity.ok(compraService.getCiudades());
     }
 
-
+    @GetMapping("/actividades")
+    @CrossOrigin()
+    public ResponseEntity<List<String>> getActivities(){
+        return ResponseEntity.ok(compraService.getActivities());
+    }
 
 
 

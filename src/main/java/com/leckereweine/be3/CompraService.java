@@ -4,8 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import java.io.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +19,8 @@ public class CompraService {
 
     List<Producto> listaProductos, aux;
     double costoFinal;
+    private static final String NUEVA_COMPRA = "Ingreso de compra nueva a la BD", HISTORIAL = "Solicitud del historial de compras", CIUDADES = "Solicitud de las ciudades disponibles";
+
 
 
 
@@ -92,7 +99,18 @@ public class CompraService {
                         if(prod.getStock() <= 0) return ResponseEntity.status(HttpStatus.CONFLICT).body(null); //409
                     }*/
 
-                    return ResponseEntity.ok(CompraExternService.postCompra(comprita));
+                    //Actividades
+                    comprita = CompraExternService.postCompra(comprita);
+                    if(comprita != null){
+                        //Activity actividad = new Activity(comprita.getDateTime(), NUEVA_COMPRA, true, "cliente");
+                        createActiviy(NUEVA_COMPRA, true);
+                    }else{
+                        //Activity actividad = new Activity(comprita.getDateTime(), NUEVA_COMPRA, false, "cliente");
+                        createActiviy(NUEVA_COMPRA, false);
+                    }
+
+                    return ResponseEntity.ok(comprita);
+                    //return ResponseEntity.ok(CompraExternService.postCompra(comprita));
                 }else if(enteroAux == 1){
                     return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null); //422
                 }else if(enteroAux == 2){
@@ -114,8 +132,11 @@ public class CompraService {
 
         if(user != null){
             List<CompraBD> comprasBD = CompraExternService.getHistorialCompras(user);
+
             //List<Compra> compras = CompraExternService.getHistorialCompras(user);
             if(comprasBD != null){
+                //Activity actividad = new Activity(LocalDateTime.now(), HISTORIAL, true, "cliente");
+                createActiviy(HISTORIAL, true);
                 for(var compraBD: comprasBD){
 
                     List<Integer> idProductos = new ArrayList<>();
@@ -137,6 +158,9 @@ public class CompraService {
 
 
                 }
+            }else{
+                //Activity actividad = new Activity(LocalDateTime.now(), HISTORIAL, false, "cliente");
+                createActiviy(HISTORIAL, false);
             }
 
             return comprasBD;
@@ -148,7 +172,73 @@ public class CompraService {
 
     public List<Ciudad> getCiudades(){
         List<Ciudad> ciudades = CompraExternService.getCiudades();
-
+        if(ciudades != null){
+            //Activity actividad = new Activity(LocalDateTime.now(), CIUDADES, true, "cliente");
+            createActiviy(CIUDADES, true);
+        }else{
+            //Activity actividad = new Activity(LocalDateTime.now(), CIUDADES, false, "cliente");
+            createActiviy(CIUDADES, false);
+        }
         return ciudades;
+    }
+
+    public List<String> getActivities(){
+        String cadena;
+        List<String> archivo = new ArrayList<>();
+        try{
+            FileReader fr = new FileReader("activities.txt");
+            BufferedReader br = new BufferedReader(fr);
+            while( (cadena = br.readLine()) != null ){
+                archivo.add(cadena);
+            }
+            br.close();
+            fr.close();
+            return archivo;
+        }catch(IOException e){
+
+        }
+
+        return null;
+    }
+
+    private void createActiviy(String desc, boolean wellDone){
+
+        LocalDateTime lcd = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formatDateTime = lcd.format(dtf);
+        Activity actividad = new Activity(formatDateTime, desc, wellDone, "usuario");
+
+        Gson gson = new GsonBuilder()
+
+                .registerTypeAdapter(LocalDateTime.class, new CompraExternService.LocalDateAdapter())
+                .create();
+
+        String jsonString = gson.toJson(actividad);
+
+        File file = new File("activities.txt");
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+                FileWriter fw = new FileWriter(file, true);
+                PrintWriter pw = new PrintWriter(fw);
+                pw.println(jsonString);
+                pw.close();
+                fw.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            try {
+                FileWriter fw = new FileWriter(file, true);
+                PrintWriter pw = new PrintWriter(fw);
+                pw.println(jsonString);
+                pw.close();
+                fw.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

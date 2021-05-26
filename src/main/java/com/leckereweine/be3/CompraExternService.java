@@ -33,8 +33,8 @@ public class CompraExternService {
 
 
 
-    private static final String BD_URL = "http://25.16.129.2:9081/"; //El de luisrard
-    //private static final String BD_URL = "http://25.4.107.19:9081/";
+    //private static final String BD_URL = "http://25.16.129.2:9081/"; //El de luisrard
+    private static final String BD_URL = "http://25.4.107.19:9081/";
     private static final String BANCO_URL = "http://localhost:8081/";
 
 
@@ -54,14 +54,15 @@ public class CompraExternService {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             //Compra comprita = gson.fromJson(response.body(), Compra.class);
             System.out.println(response.body());
-            //return comprita;
+            return compra; //commented
         }
         catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return compra;
+        //return compra;
+        return null;
     }
 
     /*public static List<Compra> getHistorialCompras(int id_usuario) {
